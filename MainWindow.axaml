@@ -1,0 +1,113 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:AvaloniaEdit="clr-namespace:AvaloniaEdit;assembly=AvaloniaEdit"
+        x:Class="PolycodeCompiler.MainWindow"
+        Title="Поликод МИРЭА - Desktop Compiler" Width="800" Height="600" Background="#CDE3FF">
+    <Window.Styles>
+        <Style Selector="TextBox:focus">
+            <Setter Property="BorderBrush" Value="Transparent"/>
+        </Style>
+        <Style Selector="TextBox:pointerover">
+            <Setter Property="Background" Value="White"/>
+        </Style>
+        <!-- Стили для кнопок -->
+        <Style Selector="Button:pointerover">
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+        <!-- Стиль для кнопки меню -->
+        <Style Selector="MenuItem.menuButton">
+            <Setter Property="Background" Value="#59A1FF"/>
+            <Setter Property="Foreground" Value="#FFF"/>
+            <Setter Property="CornerRadius" Value="3"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+        </Style>
+    </Window.Styles>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="25*"/>
+            <ColumnDefinition Width="2.5"/>
+            <ColumnDefinition Width="75*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Дерево файлов -->
+        <StackPanel Grid.Column="0" Grid.Row="0" Grid.RowSpan="3" Background="#CDE3FF" Margin="0" VerticalAlignment="Stretch">
+            <!-- Меню -->
+            <Menu Margin="10,10,10,0">
+                <MenuItem Cursor="Hand" Header="Меню" Classes="menuButton">
+                    <MenuItem Header="Сохранить" Click="OnSaveFile"/>
+                    <MenuItem Header="Сохранить как.." Click="OnSaveFileAs"/>
+                    <MenuItem Header="Открыть папку" Click="OnSelectFolderClick" />
+                </MenuItem>
+            </Menu>
+            
+            <TreeView Name="FileTreeView" Background="#CDE3FF" Margin="5" Foreground="#a2a2a2"/>
+        </StackPanel>
+
+        <!-- Разделитель -->
+        <GridSplitter Grid.Column="1" Grid.Row="0" Grid.RowSpan="3" Width="2.5" Background="#59A1FF" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+
+        <!-- Шапка -->
+        <StackPanel Grid.Column="2" Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Top" Margin="10,10,10,0">
+            <TextBlock Text="Язык" VerticalAlignment="Center" FontSize="16" FontWeight="Regular" Margin="0,0,10,0" />
+            <ComboBox Name="LanguageSelector" VerticalAlignment="Center">
+                <ComboBoxItem Content="Выберите язык" IsEnabled="False" />
+                <ComboBoxItem Content="C#"/>
+                <ComboBoxItem Content="C++"/>
+                <ComboBoxItem Content="Python"/>
+                <ComboBoxItem Content="JavaScript"/>
+                <ComboBoxItem Content="Java"/>
+                <ComboBoxItem Content="C"/>
+                <ComboBoxItem Content="Go"/>
+                <ComboBoxItem Content="Pascal"/>
+                <ComboBoxItem Content="PHP"/>
+                <ComboBoxItem Content="Ruby"/>
+            </ComboBox>
+
+            <Button Content="Запустить код (F5)" Click="OnCompileRun" Margin="10,0,0,0" Background="#59A1FF" Foreground="White"/>
+        </StackPanel>
+
+        <!-- Главное -->
+        <Grid Grid.Column="2" Grid.Row="1" Margin="10,10,10,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" MinHeight="0"/>
+                <RowDefinition Height="1"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Редактор кода -->
+            <AvaloniaEdit:TextEditor Name="CodeInput" Text="// Начните вводить код здесь.." ShowLineNumbers="True" FontFamily="Cascadia Code, Consolas, Menlo, Monospace" Grid.Row="0" Margin="0" KeyDown="CodeInput_KeyDown" Background="White" MinHeight="0" />
+
+            <!-- Разделитель -->
+            <GridSplitter Grid.Row="1" Height="1" HorizontalAlignment="Stretch" Background="#A2A2A2"/>
+
+            <!-- Консоль -->
+            <TextBox Name="OutputBox" Grid.Row="2" IsReadOnly="True" Margin="0" Background="White" MinHeight="0" VerticalAlignment="Stretch">
+                <TextBox.Styles>
+                    <Style Selector="ScrollViewer">
+                        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
+                        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+                    </Style>
+                </TextBox.Styles>
+            </TextBox>
+        </Grid>
+
+        <!-- Входные данные -->
+        <StackPanel Grid.Column="2" Grid.Row="2" Margin="10,10,10,10">
+            <TextBlock Text="Входные данные:" FontSize="16" Margin="0,0,0,5"/>
+            <TextBox Name="CodeInputParams" AcceptsReturn="True" Height="100" Margin="0,5,10,0" Background="White">
+                <TextBox.Styles>
+                    <Style Selector="ScrollViewer">
+                        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
+                        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+                    </Style>
+                </TextBox.Styles>
+            </TextBox>
+        </StackPanel>
+    </Grid>
+</Window>
